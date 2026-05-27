@@ -1,0 +1,44 @@
+##Python package
+
+rosenthal-welding-model/
+│
+├── README.md
+├── LICENSE
+├── requirements.txt
+├── setup.py
+│
+├── rosenthal/                       - the package
+│   ├── __init__.py                  - makes it a package, exports all functions
+│   ├── parameters.py                - all input parameters in one place
+│   ├── model.py                     - Rosenthal equation + all calculations
+│   └── plots.py                     - all 4 plotting functions
+│
+├── example/
+│   └── run_example.py               - runs the full model end to end
+│
+└── tests/
+    └── test_model.py                - 15 unit tests covering all functions
+	
+	
+	
+	
+	To run this as a proper local app outside Claude, Streamlit is the best choice for your PhD project — it will look very similar to what you see here, runs in your browser, and is easy to add to your GitHub package.
+Here is what you need to do:
+Step 1 — Install Streamlit: pip install streamlit
+	
+	And to run it you would just type: streamlit run app.py
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

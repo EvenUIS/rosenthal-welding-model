@@ -1,0 +1,191 @@
+# Rosenthal Welding Heat Model
+A PhD research tool for thermal analysis of welding processes based on the Rosenthal (1946) moving heat source analytical solution.
+
+---
+
+## Description
+--------------
+This tool models the heat development during a welding process using the Rosenthal equation for a moving point heat source. It computes the 2D steady-state temperature field, thermal cycles, HAZ width estimates, tensile strength, and hardness profiles across the weld.
+
+**Key outputs:**
+- 2D temperature field with isotherms (melting, AC3, AC1, max elastic)
+- Thermal cycles at various transverse distances from the weld centreline
+- Transverse temperature profiles at fixed X positions
+- HAZ and fusion zone width estimates
+- Tensile strength profile across the weld
+- Vickers hardness profile across the weld
+
+**Reference:** Rosenthal, D. (1946). The theory of moving sources of heat and its application to metal treatments. *Trans. ASME*, 68, 849–866.
+
+---
+
+## Installation
+---------------
+```
+git clone https://github.com/<your-username>/rosenthal-welding-model.git
+
+cd rosenthal-welding-model
+
+pip install -r requirements.txt
+```
+
+---
+
+## Run the model
+----------------
+```
+python rosenthal_welding_model.py
+```
+
+Output figures are saved to the `outputs/` folder:
+- `rosenthal_welding_results.png`    — main 4-panel thermal field and cycle plots
+- `rosenthal_HAZ_width.png`          — HAZ and fusion zone width estimate
+- `rosenthal_tensile_strength.png`   — tensile strength profile across weld
+- `rosenthal_hardness.png`           — Vickers hardness profile across weld
+
+---
+
+## Input Parameters
+-------------------
+All input parameters are defined at the top of `rosenthal_welding_model.py`:
+
+| Parameter | Description | Default | Unit |
+|-----------|-------------|---------|------|
+| `V` | Arc voltage | 20 | V |
+| `I` | Welding current | 180 | A |
+| `te` | Thermal efficiency | 0.8 | — |
+| `v_mm_min` | Welding speed | 180 | mm/min |
+| `T0` | Ambient temperature | 25 | °C |
+| `k` | Thermal conductivity | 45 | W/m·K |
+| `rho` | Density | 7850 | kg/m³ |
+| `c` | Specific heat | 470 | J/kg·K |
+| `AC1_temp` | Lower transformation temperature | 720 | °C |
+| `AC3_temp` | Upper transformation temperature | 900 | °C |
+| `melting_temp` | Melting temperature | 1450 | °C |
+| `thickness` | Plate thickness | 8.1 | mm |
+| `ed` | Electrode diameter | 1.2 | mm |
+| `ys` | Yield strength | 385 × 10⁶ | Pa |
+| `yt` | Tensile strength | 535 × 10⁶ | Pa |
+
+No code changes are needed outside the input block for different welding conditions.
+
+---
+
+## Key Equations
+----------------
+
+**Rosenthal moving heat source (3D):**
+```
+T(X,Y) = T0 + (Q / (2π·k·r)) · exp(−v·(r + X) / (2α))
+```
+
+**Net heat input:**
+```
+Q = η · V · I
+```
+
+**Thermal diffusivity:**
+```
+α = k / (ρ · c)
+```
+
+**Cooling rate at centreline:**
+```
+dT/dt = −2π·k·v·(T − T0)² / Q
+```
+
+**Tensile strength estimate:**
+```
+yt_w = MAX(0.0799 · T + 485.84,  yt)
+```
+
+**Hardness estimate:**
+```
+HV = 0.3328 · yt_w − 14.144
+```
+
+---
+
+## Project Structure
+--------------------
+```
+rosenthal-welding-model/
+│
+├── README.md                         # Project documentation
+├── LICENSE                           # MIT license
+├── requirements.txt                  # numpy, matplotlib
+│
+├── rosenthal_welding_model.py        # Main script
+│
+├── inputs/
+│   └── parameters.py                 # Input parameters (separated)
+│
+├── outputs/                          # Generated figures
+│   ├── rosenthal_welding_results.png
+│   ├── rosenthal_HAZ_width.png
+│   ├── rosenthal_tensile_strength.png
+│   └── rosenthal_hardness.png
+│
+└── docs/
+    └── theory.md                     # Rosenthal equation background
+```
+
+---
+
+## Requirements
+---------------
+```
+numpy
+matplotlib
+```
+
+Install with:
+```
+pip install -r requirements.txt
+```
+
+Requires Python ≥ 3.8.
+
+---
+
+## Example Console Output
+--------------------------
+```
+============================================================
+  ROSENTHAL WELDING HEAT MODEL  —  Parameter Summary
+============================================================
+  Voltage               : 20 V
+  Current               : 180 A
+  Thermal efficiency    : 0.8
+  Net heat input (Q)    : 2880.0 W
+  Heat input per length : 0.96 kJ/mm
+  Welding speed         : 180 mm/min  (3.00 mm/s)
+  Thermal diffusivity α : 1.220e-05 m²/s
+  Cooling type          : Natural
+  Plate thickness       : 8.1 mm
+------------------------------------------------------------
+  Peak T at centreline (approx, r→0 clipped): 3184 °C
+  Cooling rate at 800 °C (centreline): 176.9 °C/s
+  Max electrode temp (calc)           : 3184 °C
+============================================================
+  Estimated fusion zone half-width (>1450°C): 4.26 mm
+  Estimated HAZ half-width (>720°C AC1):      6.61 mm
+  Base material hardness : 164 HV
+  Weld metal hardness    : 232 HV
+```
+
+---
+
+## Citation
+-----------
+If this tool contributes to published research, please cite the original Rosenthal equation:
+
+> Rosenthal, D. (1946). The theory of moving sources of heat and its application to metal treatments. *Transactions of the ASME*, 68, 849–866.
+
+---
+
+## Author
+----------
+PhD Research — Welding Process Thermal Analysis  
+Copyright (c) 2026 [Even Englund]
+Tool developed for academic research purposes.
