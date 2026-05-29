@@ -6,7 +6,7 @@ Based on the Rosenthal (1946) moving heat source analytical solution.
 
 Modules
 -------
-parameters : Input parameters (material, electrical, geometry)
+parameters : WeldingConditions dataclass and DEFAULT_CONDITIONS preset
 model      : Core Rosenthal functions (temperature, HAZ, strength, hardness)
 plots      : Plotting functions for all output figures
 
@@ -16,6 +16,7 @@ Rosenthal, D. (1946). The theory of moving sources of heat and its
 application to metal treatments. Trans. ASME, 68, 849-866.
 """
 
+from rosenthal.parameters import WeldingConditions, DEFAULT_CONDITIONS
 from rosenthal.model import (
     rosenthal_temperature,
     thermal_cycle,
@@ -26,5 +27,17 @@ from rosenthal.model import (
     hardness_profile,
 )
 
+__all__ = [
+    "WeldingConditions",
+    "DEFAULT_CONDITIONS",
+    "rosenthal_temperature",
+    "thermal_cycle",
+    "thermal_cycle_xslice",
+    "cooling_rate_centreline",
+    "haz_width_estimate",
+    "tensile_strength_profile",
+    "hardness_profile",
+]
+
 __version__ = "1.0.0"
-__author__  = "Even Englund"
+__author__ = "Even Englund"
